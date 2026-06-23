@@ -97,11 +97,19 @@ function buildColorOverlay() {
   return overlay;
 }
 
+let lastOverlayStateKey = null;
+
 function updateColorOverlay(overlay) {
   if (!state.showColorOverlay) {
     overlay.hidden = true;
+    lastOverlayStateKey = null;
     return;
   }
+
+  const stateKey = `${state.arcCount}_${state.arcWidthDeg}_${state.rotationHz.toFixed(1)}`;
+  if (stateKey === lastOverlayStateKey && !overlay.hidden) return;
+  lastOverlayStateKey = stateKey;
+
   overlay.hidden = false;
   const prediction = predictColor({ arcWidthDeg: state.arcWidthDeg, rotationHz: state.rotationHz });
   overlay.style.borderColor = prediction.hex;
@@ -123,9 +131,11 @@ function bindKeyboard() {
         state.paused = !state.paused;
         break;
       case 'ArrowUp':
+        e.preventDefault();
         state.rotationHz = Math.min(30, state.rotationHz + 0.5);
         break;
       case 'ArrowDown':
+        e.preventDefault();
         state.rotationHz = Math.max(0.1, state.rotationHz - 0.5);
         break;
       case 'Equal':
@@ -194,7 +204,9 @@ async function main() {
   let lastTimeMs = performance.now();
 
   function frame(nowMs) {
-    const dtSeconds = (nowMs - lastTimeMs) / 1000;
+    // Cap dt so a backgrounded/suspended tab doesn't produce a huge jump
+    // in rotation on the first frame after it's reactivated.
+    const dtSeconds = Math.min(0.1, (nowMs - lastTimeMs) / 1000);
     lastTimeMs = nowMs;
 
     if (!state.paused) {
@@ -231,6 +243,9 @@ async function main() {
   requestAnimationFrame(frame);
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  document.body.textContent = `Error initializing Benham Top: ${err.message}`;
+});
 
 export { state, REGIMES };

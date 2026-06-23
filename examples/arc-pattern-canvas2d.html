@@ -15,7 +15,7 @@
 <body>
   <canvas id="c" width="500" height="500"></canvas>
   <script type="module">
-    import { isWhiteAtAngle } from '../src/js/arc-pattern.js';
+    import { sectorPeriodDeg } from '../src/js/arc-pattern.js';
 
     const arcCount = 3;
     const arcWidthDeg = 45;
@@ -30,17 +30,26 @@
     let rotationDeg = 0;
     let last = performance.now();
 
+    // Each sector is a filled arc rather than many thin stroked rays, so
+    // there's no aliasing gap between rays at the outer radius and no
+    // per-frame cost beyond arcCount draw calls.
     function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // One ray per degree is plenty of resolution for a 500px canvas.
-      for (let deg = 0; deg < 360; deg++) {
-        const rad = (deg * Math.PI) / 180;
-        const white = isWhiteAtAngle(deg, arcCount, arcWidthDeg);
-        ctx.strokeStyle = white ? '#fff' : '#000';
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#fff';
+      const period = sectorPeriodDeg(arcCount);
+      for (let i = 0; i < arcCount; i++) {
+        const startDeg = i * period - rotationDeg;
+        const endDeg = startDeg + arcWidthDeg;
+        const startRad = (startDeg * Math.PI) / 180;
+        const endRad = (endDeg * Math.PI) / 180;
+
         ctx.beginPath();
         ctx.moveTo(cx, cy);
-        ctx.lineTo(cx + radius * Math.cos(rad - (rotationDeg * Math.PI) / 180), cy + radius * Math.sin(rad - (rotationDeg * Math.PI) / 180));
-        ctx.stroke();
+        ctx.arc(cx, cy, radius, startRad, endRad);
+        ctx.closePath();
+        ctx.fill();
       }
     }
 
