@@ -1,0 +1,19 @@
+{
+  "name": "benham_top",
+  "type": "SURFACE",
+  "title": "Benham Top \u2014 Fechner Colors from B&W",
+  "brief": "Spinning black-and-white disk with specific arc patterns produces subjective color (Fechner colors). The brain\u2019s temporal processing creates color from luminance flicker. Parameterize arc pattern, rotation speed, and watch colors emerge that are not in the source.",
+  "inputs": [
+    "u_source"
+  ],
+  "outputs": [
+    "generated_mesh"
+  ],
+  "tags": [
+    "generator",
+    "benham-top"
+  ],
+  "adjacency": [],
+  "status": "seed",
+  "batch": "E"
+}
