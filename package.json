@@ -1,0 +1,12 @@
+{
+  "name": "benham_top",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Benham's top / Fechner color generator — a spinning black-and-white disk that produces subjective color through temporal frequency tuning.",
+  "scripts": {
+    "start": "npx http-server . -p 8080",
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

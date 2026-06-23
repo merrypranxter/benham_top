@@ -1,0 +1,24 @@
+# benham_top
+
+> spinning black and white disk. specific arc patterns. no color in the source. stare at it and color emerges. fechner colors. the brain's temporal processing turns luminance flicker into hue.
+
+**Archetype:** SURFACE. **Distinct from** `rotating_snakes` (color-phase motion, not temporal color) and `simultaneous_contrast` (spatial color interaction, not temporal).
+
+## Adjacency
+- `rotating_snakes` — motion illusion cousin, different mechanism
+- `afterimage_painter` — temporal color adaptation, different timescale
+- `simultaneous_contrast` — spatial color interaction
+
+## Visual Targets
+- Black disk with white arc sectors
+- Arc pattern: 3, 4, or 6 sectors with specific angular widths
+- Rotation speed: 2–10 Hz (critical for color emergence)
+- Subjective color: typically blue, green, yellow, red depending on sector width
+- Parameter space: arc count × arc width × rotation speed × disk size
+- Strobe mode: variable flicker frequency for color tuning
+
+## Technical Notes
+- Fechner colors: explained by temporal frequency tuning of color-opponent channels
+- L/M cone imbalance at temporal flicker creates hue sensation
+- Arc width ~ 15°–45° optimal for subjective color
+- No actual color in the stimulus — all in the neural processing

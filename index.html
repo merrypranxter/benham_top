@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Benham Top — Fechner Colors from B&W</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: #000; font-family: system-ui, sans-serif; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+
+    #hints {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 12px;
+      line-height: 1.6;
+      pointer-events: none;
+    }
+
+    #color-overlay {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      max-width: 280px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(0, 0, 0, 0.75);
+      border: 2px solid #fff;
+      border-radius: 8px;
+      padding: 12px;
+      color: #fff;
+    }
+
+    #color-overlay .swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    #color-overlay strong { text-transform: capitalize; }
+    #color-overlay p { margin: 4px 0 0; font-size: 12px; opacity: 0.85; }
+    #color-overlay .params { opacity: 0.6; }
+  </style>
+</head>
+<body>
+  <canvas id="gl"></canvas>
+  <div id="hints">
+    Space pause · ↑↓ speed · +/- arcs · [ ] arc width · S strobe · C color overlay · 1-5 named regimes
+  </div>
+  <script type="module" src="src/js/main.js"></script>
+</body>
+</html>

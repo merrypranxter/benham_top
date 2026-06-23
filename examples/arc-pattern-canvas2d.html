@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+  Minimal Canvas2D reimplementation of the disk pattern, for environments
+  without WebGL2 or for quickly visualizing arc-pattern.js in isolation.
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>arc-pattern.js — Canvas2D demo</title>
+  <style>
+    body { margin: 0; background: #000; display: grid; place-items: center; height: 100vh; }
+    canvas { border-radius: 50%; }
+  </style>
+</head>
+<body>
+  <canvas id="c" width="500" height="500"></canvas>
+  <script type="module">
+    import { isWhiteAtAngle } from '../src/js/arc-pattern.js';
+
+    const arcCount = 3;
+    const arcWidthDeg = 45;
+    const rotationHz = 5;
+
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const radius = canvas.width / 2;
+
+    let rotationDeg = 0;
+    let last = performance.now();
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // One ray per degree is plenty of resolution for a 500px canvas.
+      for (let deg = 0; deg < 360; deg++) {
+        const rad = (deg * Math.PI) / 180;
+        const white = isWhiteAtAngle(deg, arcCount, arcWidthDeg);
+        ctx.strokeStyle = white ? '#fff' : '#000';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + radius * Math.cos(rad - (rotationDeg * Math.PI) / 180), cy + radius * Math.sin(rad - (rotationDeg * Math.PI) / 180));
+        ctx.stroke();
+      }
+    }
+
+    function frame(now) {
+      const dt = (now - last) / 1000;
+      last = now;
+      rotationDeg = (rotationDeg + dt * rotationHz * 360) % 360;
+      draw();
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>
